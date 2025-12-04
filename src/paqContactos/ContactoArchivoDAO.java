@@ -20,7 +20,7 @@ public class ContactoArchivoDAO {
         List<Contacto> lista = new ArrayList<>();
         File file = new File(rutaArchivo); 
         if(!file.exists()){
-            file.getParentFile().mkdir();
+            file.getParentFile().mkdirs();
             file.createNewFile();
             return lista;
         }
@@ -38,4 +38,15 @@ public class ContactoArchivoDAO {
         return lista;
     } //Fin del metodo leer contactos
     
+    public void guardarContactos(List<Contacto> lista) throws IOException{
+        File file = new File(rutaArchivo);
+        file.getParentFile().mkdirs();
+        
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
+            for(Contacto c : lista){
+                bw.write(c.toLineaArchivo());
+                bw.newLine();
+            }
+        }
+    }
 }// Fin de la clase
