@@ -19,13 +19,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         inicializar();
         
         DefaultTableModel modeloTabla =  new DefaultTableModel(new Object[]{"ID","Nombre","Apellido","Telefono","Correo"},0);
+        tblContactos.setModel(modeloTabla);
+        
+        //cargarDesdeArchivo();
+    }
+    
+    public void actualizarTabla(){
+        DefaultTableModel modelo = (DefaultTableModel)tblContactos.getModel();
     }
     
     private void inicializar(){
         listaContactos = new ArrayList<>();
         dao = new ContactoArchivoDAO("data/contactos.txt");
-        
-        
+         
     }
 
 
