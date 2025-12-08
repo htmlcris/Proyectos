@@ -26,6 +26,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     
     public void actualizarTabla(){
         DefaultTableModel modelo = (DefaultTableModel)tblContactos.getModel();
+        modelo.setRowCount(0);
+        for (Contacto c: listaContactos) {
+            modelo.addRow(new Object[]{
+            c.getId(),
+            c.getNombre(),
+            c.getApellido(),
+            c.getTelefono(),
+            c.getCorreo(),
+            });
+                   
+        }
     }
     
     private void inicializar(){
