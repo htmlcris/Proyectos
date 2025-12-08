@@ -18,7 +18,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         inicializar();
         
-        DefaultTableModel modeloTabla =  new DefaultTableModel();
+        DefaultTableModel modeloTabla =  new DefaultTableModel(new Object[]{"ID","Nombre","Apellido","Telefono","Correo"},0);
     }
     
     private void inicializar(){
