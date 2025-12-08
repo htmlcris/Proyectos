@@ -1,2 +1,2 @@
-1;Cristian;Rosero;0997029457;cristianrosero134@gmail.com
-2;Valeria Enriquez;0985089822;valeriaenriquez9noe@gmail.com
+1,Cristian,Rosero;0997029457;cristianrosero134@gmail.com
+2,Valeria,Enriquez;0985089822;valeriaenriquez9noe@gmail.com

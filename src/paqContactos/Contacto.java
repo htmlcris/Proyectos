@@ -57,7 +57,7 @@ public class Contacto {
     
     @Override
     public String toString() {
-        return "Contacto:" + "\nId=" + id + " \nNombre=" + nombre + " \nApellido=" + apellido + " \nCorreo=" + correo + " \nTelefono=" + telefono;
+        return "Contacto:" + "\nId=" + id + " \nNombre=" + nombre + " \nApellido=" + apellido + " \nTelefono=" + telefono + " \nCorreo=" + correo;
     }
     
     public String toLineaArchivo(){
@@ -65,7 +65,7 @@ public class Contacto {
     }
     
     public static Contacto desdeLineaArchivo(String linea){
-        String[] partes = linea.split(";");
+        String[] partes = linea.split(",");
         if(partes.length != 5){
             return null;
         }
@@ -77,9 +77,11 @@ public class Contacto {
             String telefono = partes[3];
             String correo = partes[4];
             
-            return new Contacto(id,nombre,apellido,correo,telefono);
+            return new Contacto(id,nombre,apellido,telefono,correo);
             
         }catch(NumberFormatException e){
+            System.out.println("Error"+linea);
+            e.printStackTrace();
             return null;
         }
 
