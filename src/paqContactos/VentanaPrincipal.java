@@ -1,13 +1,31 @@
 package paqContactos;
 
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.IOException;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.DefaultListModel;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
+    private List<Contacto> listaContactos;    
+    private ContactoArchivoDAO dao;
+
+//CONSTRUCTOR     
     public VentanaPrincipal() {
         initComponents();
         setLocationRelativeTo(null);
-        inicializar;
+        inicializar();
+        
+        DefaultTableModel modeloTabla =  new DefaultTableModel();
+    }
+    
+    private void inicializar(){
+        listaContactos = new ArrayList<>();
+        dao = new ContactoArchivoDAO("data/contactos.txt");
+        
+        
     }
 
 
