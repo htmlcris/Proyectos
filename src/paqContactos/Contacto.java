@@ -12,8 +12,7 @@ public class Contacto {
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
-        this.correo = correo;
-        
+        this.correo = correo;    
     }
 
     public String getNombre() {

@@ -17,11 +17,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         inicializar();
-        
-        DefaultTableModel modeloTabla =  new DefaultTableModel(new Object[]{"ID","Nombre","Apellido","Telefono","Correo"},0);
-        tblContactos.setModel(modeloTabla);
-        
-        //cargarDesdeArchivo();
     }
     
     public void actualizarTabla(){
@@ -34,15 +29,37 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             c.getApellido(),
             c.getTelefono(),
             c.getCorreo(),
-            });
-                   
+        });                  
+        }
+    }
+    
+    private void cargarDesdeArchivo(){
+        try{
+            listaContactos = dao.leerContactos();
+            actualizarTabla();
+            actualizarLista();
+        }catch(IOException e){
+            JOptionPane.showMessageDialog(null, "Error al leer el archivo"+e.getMessage());
         }
     }
     
     private void inicializar(){
         listaContactos = new ArrayList<>();
         dao = new ContactoArchivoDAO("data/contactos.txt");
-         
+        
+        DefaultTableModel modeloTabla =  new DefaultTableModel(new Object[]{"ID","Nombre","Apellido","Telefono","Correo"},0);
+        tblContactos.setModel(modeloTabla);
+        
+        cargarDesdeArchivo();
+    }
+    
+    public void actualizarLista(){
+        DefaultListModel<Contacto> modelo = new DefaultListModel<>();
+        for (Contacto c: listaContactos) {
+            modelo.addElement(c);
+        }
+        lstContactos.setModel(modelo);
+        
     }
 
 
@@ -68,6 +85,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         btnGuardar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblContactos = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstContactos = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -163,7 +182,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         tblContactos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(tblContactos);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 550, 250));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 300, 250));
+
+        jScrollPane2.setViewportView(lstContactos);
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 320, 210, 250));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -216,6 +239,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<Contacto> lstContactos;
     private javax.swing.JTable tblContactos;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCorreo;
