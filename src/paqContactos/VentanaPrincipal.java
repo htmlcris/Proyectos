@@ -19,6 +19,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         inicializar();
     }
     
+    
+    
     public void actualizarTabla(){
         DefaultTableModel modelo = (DefaultTableModel)tblContactos.getModel();
         modelo.setRowCount(0);
@@ -88,6 +90,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         txtApellido.setText(" ");
         txtTelefono.setText(" ");
         txtCorreo.setText(" ");
+        txtId.requestFocus();
     }
     
     private void inicializar(){
@@ -283,6 +286,20 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE); 
             return;
         }
+        
+        String patron = "^[a-zA-Z0-9._]+@[a-zA-Z]+\\.[a-zA-Z]{2,6}$";
+        
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(patron);
+        java.util.regex.Matcher matcher = pattern.matcher(correo);
+        
+        if (!matcher.matches()) {
+            JOptionPane.showMessageDialog(this, 
+                    "El correo electrónico no es válido.",
+                    "Error de Formato",
+                    JOptionPane.WARNING_MESSAGE);
+            return; 
+        }
+        
         
         Contacto nuevo = new Contacto(id,nombre,apellido,telefono,correo);
         listaContactos.add(nuevo);
