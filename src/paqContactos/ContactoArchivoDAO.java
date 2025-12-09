@@ -42,7 +42,7 @@ public class ContactoArchivoDAO {
         File file = new File(rutaArchivo);
         file.getParentFile().mkdirs();
         
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(file, false))){
             for(Contacto c : lista){
                 bw.write(c.toLineaArchivo());
                 bw.newLine();

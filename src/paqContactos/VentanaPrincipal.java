@@ -43,6 +43,53 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }
     
+   private void guardarEnArchivo(){
+       try{
+           dao.guardarContactos(listaContactos);
+           JOptionPane.showMessageDialog(this, 
+                   "Guardado exitosamente!",
+                   "Informacion",
+                   JOptionPane.WARNING_MESSAGE);
+       }catch(IOException e){
+           JOptionPane.showMessageDialog(this, 
+                   "Error al guardar el archivo"+e.getMessage(),
+                   "Error",
+                   JOptionPane.ERROR_MESSAGE);
+       }
+   }
+   
+   public void eliminarEnArchivo(){
+        int filaSeleccionada = tblContactos.getSelectedRow();
+        if(filaSeleccionada == -1){
+            JOptionPane.showMessageDialog(this,
+                    "Selecciona una fila de la tabla",
+                    "Informacion",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        int id = (int) tblContactos.getValueAt(filaSeleccionada,0);
+        Contacto aEliminar = null;
+        for (Contacto c: listaContactos) {
+           if(c.getId()== id){
+               aEliminar = c;
+               break;
+           }
+       }
+        if(aEliminar != null){
+            listaContactos.remove(aEliminar);
+            actualizarTabla();
+            actualizarLista();
+        }
+   }
+    
+    private void limpiarCampos(){
+        txtId.setText(" ");
+        txtNombre.setText(" ");
+        txtApellido.setText(" ");
+        txtTelefono.setText(" ");
+        txtCorreo.setText(" ");
+    }
+    
     private void inicializar(){
         listaContactos = new ArrayList<>();
         dao = new ContactoArchivoDAO("data/contactos.txt");
@@ -129,15 +176,35 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnCargar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnCargar.setText("Cargar");
+        btnCargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCargarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -170,14 +237,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         tblContactos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
         tblContactos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -191,6 +257,55 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        String textoId = txtId.getText().trim();
+        String nombre = txtNombre.getText().trim();
+        String apellido = txtApellido.getText().trim();
+        String telefono = txtTelefono.getText().trim();
+        String correo = txtCorreo.getText().trim();
+        
+        if(textoId.isEmpty() || nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty() || correo.isEmpty()){
+            JOptionPane.showMessageDialog(this, 
+                    "Todos los campos son obligatorios",
+                    "Validar ID",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int id;
+        try{
+            id = Integer.parseInt(textoId);
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(this, 
+                    "El ID debe ser un numero entero",
+                    "Validar ID",
+                    JOptionPane.WARNING_MESSAGE); 
+            return;
+        }
+        
+        Contacto nuevo = new Contacto(id,nombre,apellido,telefono,correo);
+        listaContactos.add(nuevo);
+        
+        actualizarLista();
+        actualizarTabla();
+        limpiarCampos();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarActionPerformed
+        // TODO add your handling code here:
+        cargarDesdeArchivo();
+    }//GEN-LAST:event_btnCargarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        guardarEnArchivo();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        eliminarEnArchivo();
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments

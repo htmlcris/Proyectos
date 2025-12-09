@@ -65,7 +65,7 @@ public class Contacto {
     }
     
     public static Contacto desdeLineaArchivo(String linea){
-        String[] partes = linea.split(",");
+        String[] partes = linea.split(";");
         if(partes.length != 5){
             return null;
         }
@@ -80,8 +80,6 @@ public class Contacto {
             return new Contacto(id,nombre,apellido,telefono,correo);
             
         }catch(NumberFormatException e){
-            System.out.println("Error"+linea);
-            e.printStackTrace();
             return null;
         }
 
